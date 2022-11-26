@@ -62,13 +62,14 @@ class TestMovieService:
         movie = self.movie_service.get_one(1)
 
         assert movie is not None
+        assert movie.id is not None
         assert movie.id == 1
 
     def test_get_all(self):
         movies = self.movie_service.get_all()
 
         assert movies is not None
-        assert len(movies) == 2
+        assert len(movies) > 0
 
     def test_create(self):
         movie_data = {

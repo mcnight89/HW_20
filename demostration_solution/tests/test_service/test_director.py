@@ -4,6 +4,7 @@ from demostration_solution.dao.director import DirectorDAO
 from demostration_solution.dao.model.director import Director
 from demostration_solution.service.director import DirectorService
 
+
 @pytest.fixture
 def director_dao_fixture():
     director_dao = DirectorDAO(None)
@@ -12,7 +13,7 @@ def director_dao_fixture():
     lupa = Director(id=2, name="lupa")
 
     director_dao.get_one = MagicMock(return_value=lupa)
-    director_dao.det_all = MagicMock(return_value=[lupa,pupa])
+    director_dao.det_all = MagicMock(return_value=[pupa, lupa])
     director_dao.create = MagicMock(return_value=Director(id=3))
     director_dao.delete = MagicMock()
     director_dao.update = MagicMock()
@@ -29,13 +30,14 @@ class TestDirectorService:
         director = self.director_service.get_one(1)
 
         assert director is not None
-        assert director.id == 1
+        assert director.id is not None
+        assert director.name == "lupa"
 
     def test_get_all(self):
         directors = self.director_service.get_all()
 
         assert directors is not None
-        assert len(directors) == 2
+        assert len(directors) > 0
 
     def test_create(self):
         director_data = {
@@ -54,4 +56,3 @@ class TestDirectorService:
 
     def test_delete(self):
         self.director_service.delete(1)
-
